@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="1" total="2" passed="1" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2026-08-24T00:15:33 BST" name="Default suite" finished-at="2026-08-24T00:15:35 BST" duration-ms="1746">
+    <groups>
+    </groups>
+    <test started-at="2026-08-24T00:15:33 BST" name="Default test" finished-at="2026-08-24T00:15:35 BST" duration-ms="1746">
+      <class name="com.qa.api.gorest.tests.CreateAUserTest">
+        <test-method is-config="true" signature="setup()[pri:0, instance:com.qa.api.gorest.tests.CreateAUserTest@a1153bc]" started-at="2026-08-24T00:15:33 BST" name="setup" finished-at="2026-08-24T00:15:34 BST" duration-ms="258" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setup -->
+        <test-method signature="createAUserTest()[pri:0, instance:com.qa.api.gorest.tests.CreateAUserTest@a1153bc]" started-at="2026-08-24T00:15:34 BST" name="createAUserTest" finished-at="2026-08-24T00:15:35 BST" duration-ms="1476" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createAUserTest -->
+      </class> <!-- com.qa.api.gorest.tests.CreateAUserTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
