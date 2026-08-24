@@ -20,8 +20,10 @@ public class RestClient {
 	
 	// Define Response Specs: 
 	private ResponseSpecification responseSpec200 = expect().statusCode(200);
+	private ResponseSpecification responseSpec204 = expect().statusCode(204);
 	private ResponseSpecification responseSpec201 = expect().statusCode(201);
 	private ResponseSpecification responseSpec400 = expect().statusCode(400);
+	private ResponseSpecification responseSpec404 = expect().statusCode(404);
 	private ResponseSpecification responseSpec200or201 = expect().statusCode(anyOf(equalTo(200), equalTo(201)));
 	private ResponseSpecification responseSpec200or401 = expect().statusCode(anyOf(equalTo(200), equalTo(401)));
 	private ResponseSpecification responseSpec200or404 = expect().statusCode(anyOf(equalTo(200), equalTo(404)));
@@ -149,5 +151,74 @@ public class RestClient {
 		
 	}
 	
+	/**
+	 * 
+	 * @param <T>
+	 * @param BaseUrl
+	 * @param endPoint
+	 * @param body
+	 * @param queryParams
+	 * @param pathParams
+	 * @param authType
+	 * @param contentType
+	 * @return
+	 */
+	public <T>Response put(String BaseUrl, String endPoint, T body,
+			Map<String, String> queryParams,
+			Map<String, String> pathParams,
+			AuthType authType,
+			ContentType contentType) {
+		
+		RequestSpecification request = setupRequest(BaseUrl, authType, contentType);
+		applyParams(request, queryParams, pathParams);
+	Response response = request.body(body).put(endPoint).then().spec(responseSpec200or201).extract().response();
+	response.prettyPrint();
+	return response;
+	}
+	/**
+	 * 
+	 * @param <T>
+	 * @param BaseUrl
+	 * @param endPoint
+	 * @param body
+	 * @param queryParams
+	 * @param pathParams
+	 * @param authType
+	 * @param contentType
+	 * @return
+	 */
+	public <T>Response patch(String BaseUrl, String endPoint, T body,
+			Map<String, String> queryParams,
+			Map<String, String> pathParams,
+			AuthType authType,
+			ContentType contentType) {
+		
+		RequestSpecification request = setupRequest(BaseUrl, authType, contentType);
+		applyParams(request, queryParams, pathParams);
+	Response response = request.body(body).patch(endPoint).then().spec(responseSpec200or201).extract().response();
+	response.prettyPrint();
+	return response;
+	}
+	/**
+	 * @param BaseUrl
+	 * @param endPoint
+	 * @param queryParams
+	 * @param pathParams
+	 * @param authType
+	 * @param contentType
+	 * @return
+	 */
+	public <T>Response delete(String BaseUrl, String endPoint,
+			Map<String, String> queryParams,
+			Map<String, String> pathParams,
+			AuthType authType,
+			ContentType contentType) {
+		
+		RequestSpecification request = setupRequest(BaseUrl, authType, contentType);
+		applyParams(request, queryParams, pathParams);
+	Response response = request.delete(endPoint).then().spec(responseSpec204).extract().response();
+	response.prettyPrint();
+	return response;
+	}
 
 }
