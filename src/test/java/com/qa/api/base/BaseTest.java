@@ -1,6 +1,6 @@
 package com.qa.api.base;
 
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.BeforeMethod;
 
 import com.qa.gorest.client.RestClient;
 
@@ -18,7 +18,7 @@ public class BaseTest {
 		protected final static String GOREST_USERS_ENDPOINT = "/public/v2/users";
 		
 		
-	@BeforeTest
+	@BeforeMethod
 	public void setup()
 	{
 		restClient = new RestClient();
