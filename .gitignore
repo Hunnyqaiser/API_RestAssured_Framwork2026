@@ -1,0 +1,39 @@
+# ===== Compiled / Build Output =====
+target/
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
+# ===== Maven =====
+dependency-reduced-pom.xml
+flattened-pom.xml
+.mvn/wrapper/maven-wrapper.jar
+
+# ===== Test Execution & Reports =====
+test-output/
+*.log
+logs/
+report/
+allure-results/
+allure-report/
+
+# ===== OS / Editor Files =====
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.iml
+.idea/
+.vscode/
+.metadata/
+.classpath
+.project
+.settings/
+
+# ===== Secrets / Local Config (uncomment to keep tokens out of the repo) =====
+# .env
+# *.local
+# src/test/resources/config/config.properties
