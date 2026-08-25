@@ -82,42 +82,66 @@ cd API_RestAssured_Framwork2026
 ### 2. Open in an IDE
 Import the project as a **Maven project** (Eclipse: *File → Import → Existing Maven Projects*, IntelliJ: *File → Open → pom.xml*). The IDE will fetch dependencies automatically.
 
-### 3. Configuration
-Edit the values in `src/test/resources/config/config.properties`:
+### 3. Configuration — supplying the API token
 
-```properties
-# Bearer token for authenticated APIs (e.g. gorest.co.in)
-gorest_bearerToken=YourBearerTokenHere
+The framework reads config values through [`ConfigManager`](src/main/java/com/qa/gorest/manager/ConfigManager.java), which resolves a key in this **priority order** (highest first):
 
-clientid =
-apikey =
-```
+1. **JVM System Property** → `-Dgorest_bearerToken=xyz`
+2. **Environment Variable** → `GOREST_BEARER_TOKEN=xyz`
+3. **`config.properties`** file (git-ignored local file) → fallback
 
-> ⚠️ **Security:** never commit real tokens/secrets. Rotate any token that has been shared publicly, and use environment variables or a locally-ignored config for production.
+> 💡 The token key `gorest_bearerToken` maps automatically to the conventional env var name `GOREST_BEARER_TOKEN`, so you can pick whichever method fits your workflow.
+
+> ⚠️ **Security:** never commit real tokens/secrets. `config.properties` is git-ignored — use the env var / system property on CI, or the git-ignored file locally.
 
 ---
 
-## ▶️ Running Tests
+## ▶️ Running Tests & Passing the Token
 
-### Run all tests from terminal
+### From the command line (Maven)
 
+**Option A — environment variable (recommended):**
 ```bash
+export GOREST_BEARER_TOKEN=YourBearerTokenHere
 mvn clean test
 ```
 
-### Run a single test class
-
+**Option B — JVM system property:**
 ```bash
-mvn -Dtest=CreateAUserTest test
+mvn clean test -Dgorest_bearerToken=YourBearerTokenHere
 ```
 
-### Run via a TestNG suite file
-
-```bash
-mvn test -DsuiteXmlFile=src/test/resources/testRunners/testng_sanity.xml
+**Option C — git-ignored `config.properties`:**
+```properties
+gorest_bearerToken=YourBearerTokenHere
 ```
 
-> After each Maven run, TestNG writes an HTML report to `test-output/index.html` — open it in your browser.
+Run a **single test class**:
+```bash
+GOREST_BEARER_TOKEN=YourBearerTokenHere mvn test -Dtest=CreateAUserTest
+```
+
+### From an IDE — Run As TestNG (not Maven)
+
+Here the token goes to the **IDE's JVM**, not Maven, so use one of:
+
+- **Easiest:** put it in `config.properties` (resource on the classpath), then *Run As → TestNG Test*.
+- **Run Configuration → Environment** tab: add `GOREST_BEARER_TOKEN` = `YourBearerTokenHere`.
+- **Run Configuration → VM arguments** (Arguments tab): add `-Dgorest_bearerToken=YourBearerTokenHere`.
+
+### From Jenkins (CI)
+
+A `Jenkinsfile` is included. It injects the token from a **Secret text** credential named `gorest-bearer-token` as the `GOREST_BEARER_TOKEN` env var, then runs `mvn clean verify`.
+
+### Summary table
+
+| Where you run | How to pass the token |
+|---|---|
+| Command line / Maven | `GOREST_BEARER_TOKEN=... mvn test` or `mvn test -Dgorest_bearerToken=...` |
+| TestNG class in IDE | Put it in `config.properties`, or add an Env Var / VM arg in the Run Config |
+| Jenkins | Jenkins credential `gorest-bearer-token` (handled by `Jenkinsfile`) |
+
+> After each run, TestNG writes an HTML report to `test-output/index.html` — open it in your browser.
 
 ---
 
