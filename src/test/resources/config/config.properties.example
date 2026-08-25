@@ -1,0 +1,10 @@
+# Copy this file to `config.properties` and fill in your real values.
+# config.properties is git-ignored so your secrets stay out of the repo.
+#
+# Bearer token for authenticated APIs (e.g. gorest.co.in)
+gorest_bearerToken =<YOUR_BEARER_TOKEN>
+
+# OAuth2 / API Key / Basic auth values (optional)
+clientid =
+apikey =
+basic =

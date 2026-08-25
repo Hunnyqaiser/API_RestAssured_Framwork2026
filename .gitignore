@@ -33,7 +33,7 @@ Desktop.ini
 .project
 .settings/
 
-# ===== Secrets / Local Config (uncomment to keep tokens out of the repo) =====
-# .env
-# *.local
-# src/test/resources/config/config.properties
+# ===== Secrets / Local Config =====
+#.env
+#*.local
+src/test/resources/config/config.properties
