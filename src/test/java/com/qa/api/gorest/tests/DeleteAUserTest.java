@@ -1,17 +1,27 @@
 package com.qa.api.gorest.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.qa.api.base.BaseTest;
 import com.qa.api.constants.AuthType;
 import com.qa.api.pojo.User;
 import com.qa.api.utils.StringUtils;
+import com.qa.gorest.manager.ConfigManager;
 
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 public class DeleteAUserTest extends BaseTest {
+	
+private String tokenid = "aacab625a00c2b648fcc4ba7687514a0a24dd2d2ab7ac085d4b8a8131924620e";
+	
+	@BeforeMethod
+	public void setToken()
+	{
+		ConfigManager.setProperty("Bearertoken", tokenid);
+	}
 
 	@Test
 	public void deleteAUser() {
@@ -36,12 +46,13 @@ public class DeleteAUserTest extends BaseTest {
 		Response deleteResponse = restClient.delete(BASE_URL_GOREST, GOREST_USERS_ENDPOINT+ "/" + userId, null, null, 
 				AuthType.BEARER_TOKEN, ContentType.JSON);
 		Assert.assertTrue(deleteResponse.getStatusLine().contains("No Content"));
-		Assert.assertEquals(deleteResponse.jsonPath().getString("message"), "Resource not Found");
 		
 		// Get Call to check if user is created is in DB
 				Response getUserResponse2 = restClient.get(BASE_URL_GOREST, GOREST_USERS_ENDPOINT + "/" + userId, null, null,
 						AuthType.BEARER_TOKEN, ContentType.JSON);
 				Assert.assertTrue(getUserResponse2.getStatusLine().contains("Not Found"));
+				Assert.assertEquals(getUserResponse2.statusCode(), 404);
+				Assert.assertEquals(getUserResponse2.jsonPath().getString("message"), "Resource not found");
 		
 	}
 

@@ -33,14 +33,17 @@ public class RestClient {
 	
 	private RequestSpecification setupRequest(String baseURI, AuthType authtype, ContentType contenttype)
 	{
+		// NOTE: only the Accept header is set here. Content-Type is intentionally
+		// NOT set for bodyless requests (GET/DELETE) because some servers (e.g. reqres)
+		// reject the charset RestAssured appends (charset=ISO-8859-1) -> 415 Unsupported Media Type.
+		// Body-bearing methods (POST/PUT/PATCH) set Content-Type explicitly just before sending.
 		RequestSpecification request = RestAssured.given().log().all()
 			.baseUri(baseURI)
-			.contentType(contenttype)
 			.accept(contenttype);
 		
 		switch (authtype){
 		case BEARER_TOKEN:
-		request.header("Authorization", "Bearer "+ConfigManager.Get("gorest_bearerToken"));
+		request.header("Authorization", "Bearer "+ConfigManager.getProperty("Bearertoken"));
 			break;
 		case OAUTH2:
 			request.header("Authorization", "Bearer");
@@ -120,7 +123,7 @@ public class RestClient {
 		
 		RequestSpecification request = setupRequest(BaseUrl, authType, contentType);
 		applyParams(request, queryParams, pathParams);
-	Response response = request.body(body).post(endPoint).then().spec(responseSpec200or201).extract().response();
+	Response response = request.contentType(contentType).body(body).post(endPoint).then().spec(responseSpec200or201).extract().response();
 	response.prettyPrint();
 	return response;
 		
@@ -145,7 +148,7 @@ public class RestClient {
 		
 		RequestSpecification request = setupRequest(BaseUrl, authType, contentType);
 		applyParams(request, queryParams, pathParams);
-	Response response = request.body(file).post(endPoint).then().spec(responseSpec200or201).extract().response();
+	Response response = request.contentType(contentType).body(file).post(endPoint).then().spec(responseSpec200or201).extract().response();
 	response.prettyPrint();
 	return response;
 		
@@ -171,7 +174,7 @@ public class RestClient {
 		
 		RequestSpecification request = setupRequest(BaseUrl, authType, contentType);
 		applyParams(request, queryParams, pathParams);
-	Response response = request.body(body).put(endPoint).then().spec(responseSpec200or201).extract().response();
+	Response response = request.contentType(contentType).body(body).put(endPoint).then().spec(responseSpec200or201).extract().response();
 	response.prettyPrint();
 	return response;
 	}
@@ -195,7 +198,7 @@ public class RestClient {
 		
 		RequestSpecification request = setupRequest(BaseUrl, authType, contentType);
 		applyParams(request, queryParams, pathParams);
-	Response response = request.body(body).patch(endPoint).then().spec(responseSpec200or201).extract().response();
+	Response response = request.contentType(contentType).body(body).patch(endPoint).then().spec(responseSpec200or201).extract().response();
 	response.prettyPrint();
 	return response;
 	}

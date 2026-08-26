@@ -59,9 +59,14 @@ public class ConfigManager {
 		return sb.toString();
 	}
 
-	public static void set(String key, String value) {
+	public static void setProperty(String key, String value) {
 		 properties.setProperty(key, value);
 		
+	}
+	
+	public static String getProperty(String key)
+	{
+		return properties.getProperty(key);
 	}
 
 }
