@@ -10,11 +10,14 @@ import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
 import java.io.File;
+import java.util.Base64;
 import java.util.Map;
 
 import com.qa.api.constants.AuthType;
 import com.qa.api.exceptions.APIException;
 import com.qa.gorest.manager.ConfigManager;
+
+import groovyjarjarantlr4.v4.parse.ANTLRParser.id_return;
 
 public class RestClient {
 	
@@ -49,7 +52,7 @@ public class RestClient {
 			request.header("Authorization", "Bearer");
 			break;
 		case BASIC_AUTH:
-			request.header("Authorization", "Basic"+"==BasicAuth token needs to be added");
+			request.header("Authorization", "Basic "+generateTheBasicAuth());
 			break;
 		case API_KEY:
 			request.header("Authorization", "x-api-key"+"==api Key needs adding======");
@@ -74,6 +77,13 @@ public class RestClient {
 		{
 			request.pathParams(pathParams);
 		}
+	}
+	
+	
+	private String generateTheBasicAuth()
+	{
+		String basicCredential = ConfigManager.getProperty("basicAuthUsername")+":"+ConfigManager.getProperty("basicAuthUsername");
+		return Base64.getEncoder().encodeToString(basicCredential.getBytes());
 	}
 	
 	
