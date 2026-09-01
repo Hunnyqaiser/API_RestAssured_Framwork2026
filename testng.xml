@@ -3,7 +3,18 @@
 <suite name="Suite">
   <test thread-count="5" name="Test">
     <classes>
+      <class name="com.qa.api.amadeus.test.AmadeusAPITest"/>
+      <class name="com.qa.api.basicAuth.test.BasicAuthTest"/>
+      <class name="com.qa.api.contacts.tests.CreateAContactTest"/>
+      <class name="com.qa.api.contacts.tests.GetContactsAPITests"/>
+      <class name="com.qa.api.gorest.tests.CreateAUserTest"/>
       <class name="com.qa.api.gorest.tests.DeleteAUserTest"/>
+      <class name="com.qa.api.gorest.tests.GetAUserTest"/>
+      <class name="com.qa.api.gorest.tests.GetAUserWithSerializaitonTest"/>
+      <class name="com.qa.api.gorest.tests.UpdateAUserTest"/>
+      <class name="com.qa.api.products.ProductAPITest"/>
+      <class name="com.qa.api.products.ProductAPITestWithJsonPath"/>
+      <class name="com.qa.api.reqres.tests.ReqResTest"/>
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
